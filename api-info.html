@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Information</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Pokémon API Information</h1>
+        <div id="pokemonInfo">
+            <p>Loading Pokémon data...</p>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="index.html" class="button">Volver al Cotizador</a>
+        </div>
+    </div>
+    <script>
+        fetch('https://pokeapi.co/api/v2/pokemon/pikachu')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('pokemonInfo').innerHTML = `
+                    <img src="${data.sprites.front_default}" alt="${data.name}" class="pokemon-image">
+                    <p><strong>Name:</strong> ${data.name}</p>
+                    <p><strong>Height:</strong> ${data.height} decimetres</p>
+                    <p><strong>Weight:</strong> ${data.weight} hectograms</p>
+                    <p><strong>Base Experience:</strong> ${data.base_experience} XP</p>
+                    <p><strong>Abilities:</strong> ${data.abilities.map(a => a.ability.name).join(', ')}</p>
+                `;
+                console.log('Fetched Pokémon Data:', data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                document.getElementById('pokemonInfo').innerText = 'Error loading data';
+            });
+    </script>
+</body>
+</html>
